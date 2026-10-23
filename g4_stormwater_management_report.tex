@@ -1,0 +1,347 @@
+% ENGGEN 204 - 2026 Report Project, Group G4: Stormwater Management
+% Compile with: pdflatex G4_Report_Project.tex (run twice for the table of contents)
+% The fishbone diagram is drawn in TikZ inside Figure 1 (edit the \rib and \cause lines to change it).
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Page set-up (brief: A4, 2.54 cm margins, 11 pt, 1.15-2.0 line spacing) ----------
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}          % Times-style body font
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage{parskip}
+\setlength{\parskip}{6pt}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\definecolor{navyblue}{RGB}{26,54,110}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.5em,itemsep=2pt,topsep=2pt}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[labelfont=bf,textfont=it,labelsep=period,font=small]{caption}
+\usepackage{xurl}
+\urlstyle{same}
+\usepackage[hidelinks]{hyperref}
+\usepackage[authoryear,round]{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}    % APA-style (Author, Year)
+
+% ---------- Headings ----------
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+% ---------- Page numbers ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------- Reference list formatting (APA 7th: hanging indent) ----------
+\setlength{\bibhang}{1.27cm}
+\setlength{\bibsep}{4pt}
+\newcommand{\todoref}[1]{\textcolor{red}{\textbf{[#1]}}}
+
+\begin{document}
+
+% =====================================================================
+% EXECUTIVE SUMMARY (1 page, not counted in the 7-page limit)
+% =====================================================================
+\pagenumbering{roman}
+\begin{center}
+  {\Large\bfseries G4: Stormwater Management in Aotearoa New Zealand}\\[2pt]
+  {\small Engineering Excellence Consultancy (EEC)}
+\end{center}
+
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
+
+% DRAFT: written only from the content of this report. Replace with Ahmad's version if he has one.
+Stormwater management is the management and treatment of rainfall runoff from urban surfaces, and it relates directly to SDG~6 (Clean Water and Sanitation) and SDG~14 (Life Below Water). Over 80\% of New Zealanders live in urban areas, and urban drainage has historically moved stormwater into waterways as quickly as possible rather than treating it. Heavy rain can therefore still send untreated runoff into streams, beaches and harbours. EEC was asked by an Aotearoa New Zealand-based NGO to unpack this Grand Challenge. A fishbone diagram was used to identify root causes, and four focus areas were examined using the three pillars of sustainability.
+
+\textbf{Focus area 1, stormwater pollution:} runoff carries metals such as copper and zinc, sediment and nutrients into waterways. Median dissolved zinc exceeded protective guidelines at 24 of 55 urban stream sites in Auckland, Wellington and Christchurch. The harm spans all three pillars: damage to aquatic life, health risks and lost mahinga kai access for M\=aori, and higher environmental management costs.
+
+\textbf{Focus area 2, economic impacts of flooding:} the 2023 Auckland Anniversary Floods and Cyclone Gabrielle caused an estimated \$9--14.5 billion in physical damage, and about 219,000 residential properties valued at \$180 billion were in coastal inundation and inland flood zones in 2023.
+
+\textbf{Focus area 3, inadequate stormwater treatment:} unlike wastewater, urban stormwater is frequently discharged to streams, rivers and the coast without comprehensive treatment, so heavy metals, hydrocarbons, sediment and litter reach receiving waters.
+
+\textbf{Focus area 4, urbanisation:} impervious surfaces drive short-term problems (first flush pollutants and sediment) and long-term problems (ageing infrastructure and climate change), which compound over time.
+
+\textbf{Recommendation:} EEC recommends that the NGO investigate \emph{stormwater pollution} (focus area 1) further. It rated highest across magnitude, the three pillars of sustainability, people affected, NGO fit and room for further investigation. Flood damage has the largest single economic cost but depends on council investment and drainage capacity, and focus areas 3 and 4 overlap with focus area 1. The NGO could begin by asking which catchments exceed zinc and copper guidelines, which communities are most exposed and how M\=aori values are reflected in monitoring, and what the economic costs are and who bears them.
+
+\textbf{Stakeholder analysis:} a power--interest matrix identifies the engagement method for each stakeholder group. Regional and unitary councils and mana whenua should be managed closely, as they control stormwater networks, discharge consents and kaitiakitanga over waterways. Government agencies and industry should be kept satisfied, community and environmental groups and researchers kept informed, and the general public monitored.
+
+\clearpage
+
+% =====================================================================
+% TABLE OF CONTENTS
+% =====================================================================
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+\clearpage
+
+% =====================================================================
+% BODY (7-page limit)
+% =====================================================================
+\pagenumbering{arabic}
+
+\section{Grand Challenge}
+
+Stormwater management can be defined as the multiple ways to manage and treat the runoff of water from urban surfaces generated by rainfall or melted snow \citep{esnz_intro}. It is necessary to reduce the problems that stormwater can cause such as flooding, erosion, and pollution. This makes it directly relevant to two of the United Nations Sustainable Development Goals. SDG~6, clean water and sanitation, aims to protect and improve water quality \citep{un_goal6}. Stormwater runoff pertains to this as stormwater runoff can carry contaminants into freshwater systems. SDG~14, life below water, aims to reduce marine pollution from land-based activities \citep{un_goal14}. Stormwater, without proper management, often ends up in estuaries, harbours, and the ocean.
+
+In Aotearoa New Zealand, this issue has particular relevance due to the effects it has on our environment, economy, society, and culture. Urbanisation has a large impact on stormwater management, with more impermeable surfaces replacing soil and vegetation, therefore less water is absorbed \citep{esnz_intro}. With over 80\% of New Zealanders living in urban areas (Environmental Health Intelligence New Zealand [EHINZ], \citeyear{ehinz}), much of the population is exposed to the impacts of stormwater. Historically, urban drainage focused on moving stormwater into waterways as quickly as possible to prevent flooding \citep{navarrete}. This reduced flooding in some places but sent untreated runoff straight into receiving environments. During heavy rain events, this system can cause overflow into streams and beaches, affecting swimming and the ecology of harbours. Whilst management has shifted, the problem is still not solved. Figure~\ref{fig:fishbone} is a fishbone diagram that categorises and extrapolates on several of the root causes of stormwater management problems in Aotearoa.
+
+\begin{figure}[htbp]
+  \centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+  cat/.style={draw=navyblue, fill=navyblue!10, rounded corners=2pt, align=center,
+              font=\scriptsize\bfseries, text width=3.2cm, inner sep=3pt, execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000 }},
+  cause/.style={text width=2.7cm, align=right, anchor=east, inner sep=1pt,
+                font=\scriptsize, text=black, execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000 }},
+  head/.style={draw=navyblue, fill=navyblue, text=white, rounded corners=3pt,
+               align=center, font=\small\bfseries, text width=2.6cm, inner sep=5pt}]
+
+  % ---- geometry: rib end points on spine, rib height, slant ----
+  \def\ribH{4.0}   % vertical extent of each rib
+  \def\slant{1.9}  % horizontal offset between rib top and spine
+
+  % ---- spine and head ----
+  \draw[navyblue, line width=1.6pt, -{Stealth[length=3mm]}] (0,0) -- (12.65,0);
+  \node[head, anchor=west] at (12.7,0) {Stormwater management problems in Aotearoa New Zealand};
+
+  % ---- macro: one rib. #1 = x where rib meets spine, #2 = +1 (top) or -1 (bottom),
+  %      #3 = category label, #4.. = causes via a list handled below
+  \newcommand{\rib}[3]{%
+    \draw[navyblue, line width=1pt] (#1-\slant,#2*\ribH) -- (#1,0);
+    \node[cat] at (#1-\slant,#2*\ribH+#2*0.55) {#3};
+  }
+  % cause at height h (0<h<ribH) on rib ending at x1, side s
+  \newcommand{\cause}[4]{%
+    \pgfmathsetmacro{\cx}{#1-\slant*(#3/\ribH)}
+    \draw[navyblue, line width=0.5pt] (\cx-0.3,#2*#3) -- (\cx,#2*#3);
+    \node[cause] at (\cx-0.33,#2*#3) {#4};
+  }
+
+  % ================= TOP RIBS =================
+  \rib{4.7}{1}{Urbanisation and land use (2.4)}
+  \cause{4.7}{1}{3.4}{Impervious surfaces replace soil}
+  \cause{4.7}{1}{2.55}{Over 80\% of people live in urban areas}
+  \cause{4.7}{1}{1.7}{Construction sites expose loose soil}
+  \cause{4.7}{1}{0.85}{Development in flood-prone areas}
+
+  \rib{8.45}{1}{Capacity and ageing infrastructure (2.2)}
+  \cause{8.45}{1}{3.4}{Pre-1980s pipes and installation methods}
+  \cause{8.45}{1}{2.55}{Channels clog with sediment}
+  \cause{8.45}{1}{1.7}{Rainfall exceeds pipe network capacity}
+  \cause{8.45}{1}{0.85}{Rising maintenance demands}
+
+  \rib{12.2}{1}{Climate change}
+  \cause{12.2}{1}{3.4}{More frequent storms}
+  \cause{12.2}{1}{2.55}{Higher rainfall intensity}
+  \cause{12.2}{1}{1.7}{Extreme events (2023 floods)}
+  \cause{12.2}{1}{0.85}{More homes exposed to flood zones}
+
+  % ================= BOTTOM RIBS =================
+  \rib{4.7}{-1}{Pollutant sources (2.1)}
+  \cause{4.7}{-1}{3.4}{Copper from brake pads}
+  \cause{4.7}{-1}{2.55}{Zinc from tyres and metal roofing}
+  \cause{4.7}{-1}{1.7}{Sediment from exposed soil}
+  \cause{4.7}{-1}{0.85}{Excess nutrients, hydrocarbons and litter}
+
+  \rib{8.45}{-1}{Limited stormwater treatment (2.3)}
+  \cause{8.45}{-1}{3.4}{Runoff discharged to waterways untreated}
+  \cause{8.45}{-1}{2.55}{Drainage designed to remove water quickly}
+  \cause{8.45}{-1}{1.7}{First flush carries peak pollutant load}
+  \cause{8.45}{-1}{0.85}{Treatment effectiveness unclear}
+
+  \rib{12.2}{-1}{Investment and monitoring}
+  \cause{12.2}{-1}{3.4}{Reliance on council investment}
+  \cause{12.2}{-1}{2.55}{Possible gaps in catchment monitoring}
+\end{tikzpicture}
+
+  \caption{Fishbone diagram of root causes of stormwater management problems in Aotearoa New Zealand (numbers in brackets show where a category is examined as a focus area)}
+  \label{fig:fishbone}
+\end{figure}
+
+\section{Focus Areas}
+
+\subsection{Focus Area 1: Stormwater Pollution}
+
+Stormwater pollution is a significant concern in Aotearoa New Zealand as rainwater can carry contaminants from urban areas into nearby waterways. As rain flows over hard surfaces such as roads, roofs, and car parks, pollutants such as copper from brake pads, zinc from tyres and metal roofing and sediment from exposed soil can accumulate (National Institute of Water and Atmospheric Research [NIWA], \citeyear{niwa2021}). These pollutants from rainfall are then washed into stormwater drains and transported to streams and rivers, often untreated \citep{mfe_stats2020}. This allows pollution from everyday urban activities to enter our waterways and contributes to a decline in water quality.
+
+This pollution can have significant impacts on our freshwater and marine ecosystems. \citet{niwa2021} found that in 24 of 55 urban stream sites in Auckland, Wellington, and Christchurch, the median dissolved zinc concentrations were higher than recommended levels for protecting 95\% of aquatic species. Dissolved metals are extremely harmful as organisms are able to absorb them directly. Copper and zinc bind to the gills of fish and other aquatic organisms, disrupting their ability to regulate the sodium and calcium they need to function \citep{gadd2024}. Sediment damages ecosystems differently. Cloudy water blocks the light algae need to grow, which removes a food source and stops fish from being able to see well enough and feed \citep{esnz_sediment}. Excess nutrients can also encourage eutrophication further reducing the quality of the water \citep{mfe_stats2020}. These effects threaten aquatic ecosystems and undermine the goals of SDG~6, Clean Water and Sanitation, and SDG~14, Life Below Water.
+
+Polluted waterways also have social and public health consequences for communities who rely on them for recreation, food gathering and cultural practices. When stormwater transports faecal contaminants and disease-borne pathogens into rivers and coastal areas, swimming and collecting kai can pose health risks. Environmental reporting in New Zealand identifies polluted recreational water as a potential cause of illnesses, such as gastrointestinal infections \citep{mfe_stats2025_env}. For M\=aori, the quality of water can negatively impact practices such as mahinga kai (food cultivation and gathering). By restricting communities' access to safe food resources and gathering sites, it weakens cultural connections with waterways \citep{mfe_stats2025_env}.
+
+Stormwater pollution also has economic repercussions. Deteriorated waterways can limit recreation activities and impact fishing, potentially affecting tourism and businesses that depend on these environments. Polluted waterways can also lead to higher expenses for water treatment and environmental management, creating wider economic impacts for communities and industries that rely on healthy waterways. Our Freshwater 2026 assessments highlight economic expenses in addition to the health, cultural and recreational consequences of deteriorating water quality \citep{mfe_stats2026}. Managing stormwater is therefore crucial for decreasing pollution levels in waterways and protecting the ecosystems and communities that are reliant on them. For an NGO in Aotearoa New Zealand, understanding these effects helps to identify areas where further investigation could provide an advantage for environmental health and community well-being.
+
+\subsection{Focus Area 2: Economic Impacts of Flooding}
+
+The economic consequences of inadequate stormwater management extend beyond immediate property damage, with long-term impacts on households, businesses, and the wider economy. Flooding can result in significant financial losses through damaged infrastructure, business interruptions, reduced productivity, and ongoing recovery costs.
+
+The scale of these impacts was shown during the 2023 Auckland Anniversary Floods and Cyclone Gabrielle. \citet{treasury2023} estimated between \$9 billion and \$14.5 billion in physical damage, including \$2--3.5 billion to households, \$2--3 billion to businesses, and \$5--7.5 billion to public infrastructure. Beyond the immediate damage, an estimated \$400--600 million in economic production was lost during the first half of 2023, largely due to agricultural and horticultural losses. Further annual production losses of approximately \$100 million were anticipated in subsequent years due to damaged productive assets, such as orchards \citep{treasury2023}. These figures demonstrate how flooding can have lasting economic consequences, with disruptions continuing well after the initial event.
+
+Although not all flood damage is due to inadequate stormwater management, the capacity of existing drainage systems can influence the extent of urban flooding. During the 2023 Auckland floods, rainfall exceeded the capacity of the city's stormwater pipe network \citep{akl_council2023}. Urban development further increases this risk by replacing permeable land with roads, buildings, and car parks, increasing surface runoff. Where properties are located within flood-prone areas or natural overland flow paths, the potential for damage increases when drainage systems become overwhelmed.
+
+The ongoing economic risk is significant, with approximately 219,000 residential properties, valued at \$180 billion, located within coastal inundation and inland flood zones in 2023 \citep{mfe_stats2025_marine}. Modelling also estimates that between 2,200 and 14,500 properties could experience at least one damaging flood event by 2060, depending on the severity of damage considered \citep{mfe2025_flood}. This highlights the continued financial exposure of New Zealand households and the potential for substantial future economic losses.
+
+The economic impacts are also closely connected to social and environmental sustainability. Flooding can displace residents, disrupt employment, and place financial pressure on communities. Contaminated stormwater runoff can also reduce freshwater quality and damage coastal ecosystems, potentially affecting industries such as tourism, fishing, and aquaculture. These impacts connect stormwater management to SDG~6 (Clean Water and Sanitation) and SDG~14 (Life Below Water), demonstrating how economic losses are linked to wider environmental and social consequences.
+
+\subsection{Focus Area 3: Inadequate Stormwater Treatment}
+
+Inadequate stormwater treatment presents a significant challenge to water quality management in New Zealand, particularly in urban areas where runoff carries pollutants from roads, industrial sites and residential developments into surrounding waterways.
+
+Unlike wastewater, which typically undergoes treatment before discharge, urban stormwater is frequently conveyed directly into streams, rivers and coastal environments without comprehensive treatment. Consequently, contaminants such as heavy metals, hydrocarbons, sediments and litter can enter receiving waters, contributing to environmental degradation. Urban runoff has been identified as an important source of freshwater pollution, highlighting the need to investigate the effectiveness and limitations of existing stormwater treatment practices \citep{mfe2020_issue2,healy2010}. As urban development continues, the volume of contaminated runoff may increase, placing additional pressure on treatment infrastructure and receiving environments. Untreated runoff therefore carries the environmental, social and economic costs outlined in Section~2.1.
+% TODO (rubric, Focus area discussion): this focus area does not yet use the three pillars explicitly,
+% nor say who is affected or how big the problem is. Add 2-3 sentences with a cited source if space allows.
+
+\subsection{Focus Area 4: Urbanisation}
+
+Stormwater management faces challenges brought on by urbanisation. Where natural catchments are replaced with impervious surfaces such as roads, driveways or car parks, problems arise in both the short and long term. Short-term problems are related to first flush, where pollutants ranging from hydrocarbons to heavy metals wash off impervious urban surfaces \citep{waternz}, or sediment build-ups harm aquatic life \citep{shepherds2022}. The long-term challenges consist of ageing infrastructure \citep{akl_homeowner2026} and challenges due to climate change \citep{esnz_climate}.
+
+The immediate problem lies with first flushes. The discharge at the initial stage of a runoff contains the highest concentration of pollutants \citep{detsi}. Urban areas such as car parks which have impervious surfaces have high concentrations of heavy metals such as zinc (Zn), copper (Cu) and lead (Pb) \citep{waternz}. Heavy metal contamination has a significant negative influence on aquatic life, as metals can accumulate in plants and animals, causing organ damage and developmental problems if affected aquatic life were to be consumed \citep{heavymetal2024}. Another immediate problem is sediment build-up. The main sources are loose soils dislodged due to erosion or, in urban areas, construction sites that have exposed soil, where stormwater produces silt-laden water which then flows into creeks and waterways. There it increases the turbidity of the water, disrupting the food web for marine life, and runoff from urban areas can even carry toxins \citep{shepherds2022}.
+
+There are long-term problems that need to be considered. One of them is ageing infrastructure. Stormwater management systems gradually deteriorate as channels fill with vegetation and sediment, so that overall conveyance and flow slows down \citep{streamline2026}. Cities like Auckland have homes built before the 1980s, and the materials, pipe sizes and installation methods of their stormwater management systems are not able to meet the needed requirements \citep{akl_homeowner2026}. Climate change also needs to be considered. Climate change has been the reason behind more frequent storms, which have also been increasing in intensity, overwhelming stormwater management systems \citep{stormwater_challenges}. Those systems will then become more ineffective in the future, which will cause not only increased flooding but also losses of life and property \citep{sabut2026}.
+
+Overall, the continuous expansion of hard surfaces due to urbanisation will cause challenges both ecological and physical. In the short term, first flush washes heavy metals and heavy sediment loads into waterways, destabilising the aquatic ecosystem and its food web as well as negatively impacting water clarity. Over time, these compound into long-term problems such as ageing infrastructure that becomes overwhelmed and more demanding to maintain, and climate change. This highlights the challenges that are faced by stormwater management regarding urbanisation.
+
+\section{Recommendation}
+
+Based on Section~2, EEC recommends that the NGO investigate stormwater pollution (Focus Area 1) further. The four focus areas were compared on magnitude, impact across the three pillars of sustainability, people affected, NGO fit, and room for further investigation. Stormwater pollution rated highest overall.
+
+\textbf{Why stormwater pollution.} Median dissolved zinc exceeded protective guidelines at 24 of 55 urban stream sites in Auckland, Wellington and Christchurch \citep{niwa2021}. The harm spans all three pillars: damage to aquatic life, health risks and lost mahinga kai access for M\=aori, and higher environmental management costs \citep{mfe_stats2025_env,mfe_stats2026}. About 84\% of New Zealanders live in urban areas \citep{ehinz}, so most people live where stormwater can reach local waterways. Flood damage (Focus Area 2) has the largest single economic cost, but it depends on council investment and drainage capacity, as does stormwater treatment (Focus Area 3), whose short-term pollutants overlap with Focus Area 1. Stormwater pollution, in contrast, involves water quality, community access to water and kaitiakitanga, where an NGO can build evidence, work with communities and advocate for change.
+
+\textbf{Scope for further investigation.} The NGO could begin with these questions:
+\begin{itemize}
+  \item Which catchments exceed zinc and copper guidelines, and where are the monitoring gaps?
+  \item Which communities are most exposed, and how are M\=aori values reflected in monitoring?
+  \item What are the economic costs, and who bears them?
+\end{itemize}
+Answers would show where solutions could later focus, such as source control or management before discharge.
+
+\textbf{Stakeholder analysis.} Table~\ref{tab:stakeholders} sorts the stakeholders for Focus Area 1 by power and interest and gives an engagement method for each group. Councils and mana whenua are managed closely because they control stormwater networks, discharge consents and kaitiakitanga over waterways.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Power--interest matrix for stormwater pollution}
+  \label{tab:stakeholders}
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{@{}l X X@{}}
+    \toprule
+    & \textbf{Lower interest} & \textbf{Higher interest} \\
+    \midrule
+    \textbf{Higher power} &
+      \textbf{Keep satisfied:} Ministry for the Environment, developers and construction industry, NZ Transport Agency. \emph{Method: short evidence briefs; consult on policy-relevant findings.} &
+      \textbf{Manage closely:} regional and unitary councils, mana whenua (iwi and hap\=u). \emph{Method: partner and co-design; share monitoring data.} \\
+    \addlinespace
+    \textbf{Lower power} &
+      \textbf{Monitor:} general public and ratepayers, tourism and fishing businesses. \emph{Method: public reports and media updates.} &
+      \textbf{Keep informed:} community and environmental groups, residents who swim and gather kai, researchers (NIWA / Earth Sciences NZ). \emph{Method: workshops, regular updates, shared findings.} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% =====================================================================
+% REFERENCES (APA 7th) - not counted in the page limit
+% =====================================================================
+\clearpage
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{99}
+\small
+\setlength{\itemsep}{4pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\raggedright
+\makeatletter
+\renewcommand\@biblabel[1]{}
+\makeatother
+
+\bibitem[Auckland Council(2023)]{akl_council2023}
+Auckland Council. (2023, February 3). \textit{Stormwater pipe networks during a flood event}. Our Auckland. \url{https://ourauckland.aucklandcouncil.govt.nz/news/2023/02/stormwater-pipe-networks-during-a-flood-event/}
+
+\bibitem[Auckland Homeowner(2026)]{akl_homeowner2026}
+Auckland Homeowner. (2026, July 18). \textit{Drainage, stormwater \& flooding risk -- What Auckland homeowners need to understand}. \url{https://aucklandhomeowner.co.nz/drainage-stormwater-flooding-risk-what-auckland-homeowners-need-to-understand/}
+
+%\bibitem[Department of the Environment, Tourism, Science and Innovation(n.d.)]{detsi}
+%\todoref{Reference missing from team list: Department of the Environment, Tourism, Science and Innovation. (n.d.). Title. URL}
+
+\bibitem[Earth Sciences New Zealand(n.d.-a)]{esnz_climate}
+Earth Sciences New Zealand. (n.d.-a). \textit{Climate change and stormwater}. \url{https://niwa.co.nz/freshwater/stormwater-management/climate-change-and-stormwater}
+
+\bibitem[Earth Sciences New Zealand(n.d.-b)]{esnz_sediment}
+Earth Sciences New Zealand. (n.d.-b). \textit{Sediment and urbanisation}. \url{https://niwa.co.nz/freshwater/kaitiaki-tools/what-proposed-activity-or-industry/urbanisation/impacts-urbanisation/sediment-and-urbanisation}
+
+\bibitem[Earth Sciences New Zealand(n.d.-c)]{esnz_intro}
+Earth Sciences New Zealand. (n.d.-c). \textit{Stormwater -- an introduction}. \url{https://niwa.co.nz/freshwater/urban-stormwater/stormwater-management/stormwater-introduction}
+
+\bibitem[EHINZ(n.d.)]{ehinz}
+Environmental Health Intelligence New Zealand. (n.d.). \textit{Urban--rural profile}. \url{https://www.ehinz.ac.nz/indicators/population-vulnerability/urbanrural-profile/}
+
+\bibitem[Gadd et~al.(2024)]{gadd2024}
+Gadd, J. B., Hickey, C. W., \& Snelder, T. H. (2024). \textit{Acute copper and zinc water quality guideline values for Aotearoa: Technical report of the derivation including bioavailability model evaluation}. Report prepared for Ministry for the Environment. \url{https://environment.govt.nz/assets/publications/Freshwater/accute-copper-and-zinc-water-quality-guideline-values.pdf}
+
+\bibitem[Healy et~al.(2010)]{healy2010}
+Healy, K., Carmody, M., \& Conaghan, A. (2010). \textit{Operation and maintenance of stormwater treatment devices in the Auckland region} (Technical Report TR2010/053). Auckland Regional Council. \url{https://knowledgeauckland.org.nz/publications/operation-and-maintenance-of-stormwater-treatment-devices-in-the-auckland-region/}
+
+%\bibitem[Heavy metal toxicity(2024)]{heavymetal2024}
+%\todoref{Reference missing from team list: ``Heavy metal toxicity devastating impact on aquatic organisms and DNA damage'' (2024). Add author, source and URL/DOI}
+
+\bibitem[Ministry for the Environment(2020)]{mfe2020_issue2}
+Ministry for the Environment. (2020, April 7). \textit{Issue 2: Water is polluted in urban, farming, and forestry areas}. \url{https://environment.govt.nz/publications/our-freshwater-2020/issue-2-water-is-polluted-in-urban-farming-and-forestry-areas/}
+
+\bibitem[Ministry for the Environment(2025)]{mfe2025_flood}
+Ministry for the Environment. (2025). \textit{Estimated number and valuation of residential properties within inundation/flood zones impacted by climate change}. \url{https://environment.govt.nz/publications/estimated-number-and-valuation-of-residential-properties-within-inundationflood-zones-impacted-by-climate-change/}
+
+\bibitem[Ministry for the Environment \& Stats NZ(2020)]{mfe_stats2020}
+Ministry for the Environment, \& Stats NZ. (2020). \textit{Our freshwater 2020}. \url{https://environment.govt.nz/publications/our-freshwater-2020/}
+
+\bibitem[Ministry for the Environment \& Stats NZ(2025a)]{mfe_stats2025_env}
+Ministry for the Environment, \& Stats NZ. (2025a). \textit{Our environment 2025: T\=o t\=atou taiao}. \url{https://environment.govt.nz/publications/our-environment-2025/impacts-on-people-society-and-the-economy/#health-and-quality-of-life}
+
+\bibitem[Ministry for the Environment \& Stats NZ(2025b)]{mfe_stats2025_marine}
+Ministry for the Environment, \& Stats NZ. (2025b). \textit{Our marine environment 2025}. \url{https://environment.govt.nz/news/our-marine-environment-2025/}
+
+\bibitem[Ministry for the Environment \& Stats NZ(2026)]{mfe_stats2026}
+Ministry for the Environment, \& Stats NZ. (2026). \textit{Our freshwater 2026}. \url{https://environment.govt.nz/publications/our-freshwater-2026/}
+
+\bibitem[NIWA(2021)]{niwa2021}
+National Institute of Water and Atmospheric Research. (2021, March 22). \textit{Measuring copper and zinc in urban waterways} (Freshwater Update 85). \url{https://niwa.co.nz/freshwater/freshwater-update/freshwater-update-85-march-2021/measuring-copper-and-zinc-urban-waterways}
+
+\bibitem[Navarrete(n.d.)]{navarrete}
+Navarrete, A. (n.d.). \textit{NZ's stormwater problem is getting harder to ignore}. Watersmart. \url{https://www.watersmart.co.nz/news/6uhdouoab7hjuglg3k8jaiabx9h5kz}
+
+\bibitem[Sabut et~al.(2026)]{sabut2026}
+Sabut, A., Bhat, A. M., \& Mohapatra, P. K. (2026). Stormwater control measures, design aspects, and impact of climate change -- A review. \textit{Water-Energy Nexus}, \textit{9}, 46--74. \url{https://doi.org/10.1016/j.wen.2025.12.001}
+
+\bibitem[Stormwater Shepherds(2022)]{shepherds2022}
+Stormwater Shepherds. (2022, August 11). \textit{The impact of stormwater -- sediment}. \url{https://www.stormwatershepherds.org.au/blog/the-impact-of-stormwater-sediment/}
+
+%\bibitem[``Stormwater system challenges \& fixes''(n.d.)]{stormwater_challenges}
+%\todoref{Reference missing from team list: Stormwater system challenges \& fixes. (n.d.). Add publisher and URL}
+
+\bibitem[Streamline(2026)]{streamline2026}
+Streamline. (2026, August 20). \textit{Managing aging stormwater infrastructure: How advanced modeling reveals system vulnerabilities}. \url{https://streamline.tech/resources/managing-aging-stormwater-infrastructure}
+
+\bibitem[The Treasury(2023)]{treasury2023}
+The Treasury. (2023, April 27). \textit{Impacts from the North Island weather events}. New Zealand Government. \url{https://www.treasury.govt.nz/sites/default/files/2023-04/impacts-from-the-north-island-weather-events.pdf}
+
+\bibitem[United Nations Department of Economic and Social Affairs(n.d.-a)]{un_goal6}
+United Nations Department of Economic and Social Affairs. (n.d.-a). \textit{Goal 6: Ensure availability and sustainable management of water and sanitation for all}. \url{https://sdgs.un.org/goals/goal6}
+
+\bibitem[United Nations Department of Economic and Social Affairs(n.d.-b)]{un_goal14}
+United Nations Department of Economic and Social Affairs. (n.d.-b). \textit{Goal 14: Conserve and sustainably use the oceans, seas and marine resources for sustainable development}. \url{https://sdgs.un.org/goals/goal14}
+
+\bibitem[Water New Zealand(n.d.)]{waternz}
+Water New Zealand. (n.d.). \textit{First flush stormwater pollutants from carparks in different urban settings}. \url{https://www.waternz.org.nz/Article?Action=View&Article_id=1108}
+
+\end{thebibliography}
+
+\end{document}
